@@ -152,6 +152,26 @@ class Partie():
         print(titre)
 
 
+
+    """
+    QUI: Sacha Fierin, Mathis Binemans et Thibault Masset
+    QUAND: 18/05/25
+    QUOI: Méthode CreditJeu()
+    Affiche les crédits du jeu
+    """  
+    def CreditJeu(self):
+        credits = r"""
+
+Crédits du jeu :
+- Mathis Binemans
+- Sacha Fierin
+- Thibault Masset
+
+    Copyright 2025 - Tous droits réservés(personne)
+                   """
+        print(credits)
+
+
     """
     QUI: Mathis Binemans
     QUAND: 18/05/25
@@ -744,3 +764,4 @@ class Partie():
     def finDePartie(self) -> None:
         print("La partie est terminée.")
         self.__estFinie = True
+        self.CreditJeu()
