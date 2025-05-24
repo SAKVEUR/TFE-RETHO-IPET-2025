@@ -419,6 +419,8 @@ class Personnage():
 
 
 
+
+
     """
     QUI: Thibaud Masset
     QUAND: 03/04/25
