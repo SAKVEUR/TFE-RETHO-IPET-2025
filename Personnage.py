@@ -214,15 +214,13 @@ class Personnage():
     Permet au personnage de se déplacer dans une direction donnée
     """
     def seDeplacer(self, plateau):
-        ### Si pas de déplacements restants alors lancer les dés de déplacement
-        if self.__nombreDeDeplacement == 0:
-            # Lancer les dés de déplacement uniquement pour les héros
-            if self.__iconePersonnage in ['A', 'B', 'C', 'D']:  # Les icônes des héros
-                print("Lancer des dés de déplacement :")
-                self.lancerDesDeplacement()
-            else:
-                print(f"{self.nomPerso} n'a plus de points de déplacement.")
-                return
+        ### Si c'est un héros, lancer les dés de déplacement
+        if self.__iconePersonnage in ['A', 'B', 'C', 'D']:  # Les icônes des héros
+            print("Lancer des dés de déplacement :")
+            self.lancerDesDeplacement()
+        elif self.__nombreDeDeplacement == 0:  # Si c'est un monstre sans déplacements
+            print(f"{self.nomPerso} n'a plus de points de déplacement.")
+            return
 
         while self.__nombreDeDeplacement > 0:
             plateau.afficher_plateau()
@@ -377,8 +375,13 @@ class Personnage():
     Restaure le nombre de déplacements à sa valeur initiale
     """
     def restaurerDeplacements(self) -> None:
-        if self.__iconePersonnage not in ['A', 'B', 'C', 'D']:  # Si c'est un monstre
-            self.__nombreDeDeplacement = self.__nombreDeDeplacementInitial
+        try:
+            if self.__iconePersonnage not in ['A', 'B', 'C', 'D']:  # Si c'est un monstre
+                self.__nombreDeDeplacement = self.__nombreDeDeplacementInitial
+            else:
+                raise ValueError("Seuls les monstres peuvent restaurer leurs déplacements")
+        except ValueError as e:
+            print(str(e))
 
 
 
