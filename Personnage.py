@@ -587,6 +587,8 @@ class Personnage():
                         # Remplacer le coffre par un espace vide sur le plateau
                         plateau.plateau[nouvelleY][nouvelleX] = " "
                         print(f"{self.nomPerso} a ouvert un coffre et a trouvé : {coffre.contenuCoffre}")
+                        # Mettre à jour l'état du coffre dans la partie
+                        plateau.partie.etatOuvertureCoffre = True
                         return True
         
         print("Aucun coffre à proximité.")

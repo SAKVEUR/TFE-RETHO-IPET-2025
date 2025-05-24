@@ -199,6 +199,7 @@ class Partie():
                     raise ValueError
                 self.queteActuelle = self.livretQuetes[choix - 1]
                 self.plateauActuel = self.queteActuelle.plateau
+                self.plateauActuel.partie = self  # Ajouter la référence à la partie
                 
                 # Transférer les monstres de la quête choisie vers monstres_qui_joue
                 if choix == 1:
@@ -718,6 +719,18 @@ class Partie():
             print("\nLa Bombe a été retrouvée. Les HÉROS ont remporté la quête !")
             self.finDePartie()
             return True
+            
+        # Vérifier si tous les héros sont morts
+        heros_vivants = False
+        for heros in self.heros_qui_joue:
+            if heros.points_vie_Perso > 0:
+                heros_vivants = True
+                
+        if not heros_vivants:
+            print("\nTous les héros sont morts. Les MONSTRES ont remporté la quête !")
+            self.finDePartie()
+            return True
+            
         return False
  
 
