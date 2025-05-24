@@ -145,15 +145,11 @@ class Personnage():
     Permet de lancer des dés afin de se déplacer
     """
     def lancerDesDeplacement(self):
-        if self.__nombreDeDeplacement > 0:
-            valeur = self.__nombreDeDeplacement
-            self.__nombreDeDeplacement = valeur
-        else:
-            des = DesDeplacement()
-            valeur1 = des.lancer()
-            valeur2 = des.lancer()
-            sommeDeDeplacement = valeur1 + valeur2
-            self.__nombreDeDeplacement = sommeDeDeplacement
+        des = DesDeplacement()
+        valeur1 = des.lancer()
+        valeur2 = des.lancer()
+        sommeDeDeplacement = valeur1 + valeur2
+        self.__nombreDeDeplacement = sommeDeDeplacement
         print(f"Vous avez obtenu {sommeDeDeplacement} déplacements possibles.") 
 
 
