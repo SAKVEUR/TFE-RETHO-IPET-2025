@@ -227,23 +227,30 @@ class Personnage():
         while self.__nombreDeDeplacement > 0:
             plateau.afficher_plateau()
             print(f"Il vous reste {self.__nombreDeDeplacement} déplacement(s).")
+            
             ### Demander la direction de déplacement
-            direction = input("Dans quelle direction voulez-vous vous déplacer ? (haut/bas/gauche/droite) ou alors 'passer' pour passer votre tour >>> ").lower()
+            while True:
+                try:
+                    direction = input("Dans quelle direction voulez-vous vous déplacer ? (Z/S/Q/D) ou alors '0' pour passer votre tour >>> ").lower()
+                    if direction not in ['z', 's', 'q', 'd', '0']:
+                        raise ValueError("Direction invalide")
+                    break
+                except ValueError:
+                    print("Direction invalide. Veuillez choisir entre Z (haut), S (bas), Q (gauche), D (droite) ou 0 (passer).")
             
             ### Appeler la méthode de déplacement appropriée
             deplacement_reussi = False
-            if direction == "haut":
+            if direction == "z":
                 deplacement_reussi = self.avancerHaut(plateau)
-            elif direction == "bas":
+            elif direction == "s":
                 deplacement_reussi = self.avancerBas(plateau)
-            elif direction == "gauche":
+            elif direction == "q":
                 deplacement_reussi = self.avancerGauche(plateau)
-            elif direction == "droite":
+            elif direction == "d":
                 deplacement_reussi = self.avancerDroite(plateau)
-            elif direction == "passer":
+            elif direction == "0":
                 self.passerTour()
-            else:
-                print("Direction invalide. Veuillez choisir entre haut, bas, gauche ou droite.")
+                deplacement_reussi = True
 
             ### Si le déplacement a réussi, diminuer le nombre de déplacements restants
             if deplacement_reussi:

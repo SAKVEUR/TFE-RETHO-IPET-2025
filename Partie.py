@@ -550,24 +550,30 @@ class Partie():
     Permet de choisir une action
     """
     def choisirAction(self, actions_possibles, personnage):
-        try:
-            choix = int(input("Veuillez choisir une action (numéro) ou 0 pour passer >>> "))
-            if choix == 0:
-                personnage.passerTour()
-            elif 1 <= choix <= len(actions_possibles):
-                action, x, y = actions_possibles[choix - 1]
-                if action == "se déplacer":
-                    personnage.seDeplacer(self.plateauActuel)
-                elif action == "attaquer":
-                    personnage.attaquer(self.plateauActuel)
-                elif action == "ouvrir le coffre":
-                    personnage.ouvrirCoffre(self.plateauActuel)
-                elif action == "ouvrir la porte":
-                    personnage.ouvrirPorte(self.plateauActuel)
-            else:
-                print("Action invalide")
-        except ValueError:
-            print("Veuillez entrer un numéro")
+        while True:
+            try:
+                choix = int(input("Veuillez choisir une action (numéro) ou 0 pour passer >>> "))
+                if choix == 0:
+                    personnage.passerTour()
+                    break
+                elif 1 <= choix <= len(actions_possibles):
+                    action, x, y = actions_possibles[choix - 1]
+                    if action == "se déplacer":
+                        personnage.seDeplacer(self.plateauActuel)
+                    elif action == "attaquer":
+                        personnage.attaquer(self.plateauActuel)
+                    elif action == "ouvrir le coffre":
+                        personnage.ouvrirCoffre(self.plateauActuel)
+                    elif action == "ouvrir la porte":
+                        personnage.ouvrirPorte(self.plateauActuel)
+                    break
+                else:
+                    raise ValueError("Action invalide")
+            except ValueError as e:
+                if str(e) == "Action invalide":
+                    print("Action invalide. Veuillez choisir un numéro entre 0 et", len(actions_possibles))
+                else:
+                    print("Veuillez entrer un numéro")
 
 
 
