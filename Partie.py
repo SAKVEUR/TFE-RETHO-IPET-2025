@@ -694,6 +694,7 @@ class Partie():
         for monstre in self.monstres_qui_joue:
             if monstre.points_vie_Perso > 0:  # On ne fait jouer que les monstres vivants
                 print(f"\nC'est au tour de {maitre_du_jeu.nomJoueur} et son monstre {monstre.nomPerso}")
+                monstre.restaurerDeplacements()  # Restaurer les points de déplacement
                 self.verifierCasesAdjacente(monstre)
         print("\n=== Fin du tour des monstres ===")
 

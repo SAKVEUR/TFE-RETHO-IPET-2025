@@ -13,10 +13,10 @@ from random import *
 ### Constructeur / Destructeur ###
 ##################################
 class DesCombat():
-    def __init__(self, para_nombreFaceDesCombats:int, para_nombreFaceAttaque:int):
+    def __init__(self, para_nombreFaceDesCombats:int = 6, para_nombreFaceAttaque:int = 4):
 
         self.__nombreFaceDesCombats:int = 6
-        self.__nombreFaceAttaque:int = 3
+        self.__nombreFaceAttaque:int = 4
 
         self.nombreFaceDesCombats = para_nombreFaceDesCombats
         self.nombreFaceAttaque = para_nombreFaceAttaque
@@ -50,7 +50,7 @@ class DesCombat():
         resultat = randint(1, self.nombreFaceDesCombats)
         
         # Seuls les nombres 1, 3 et 5 permettent d'attaquer
-        if resultat in [1, 3, 6]:
+        if resultat in [1, 3, 4, 6]:
             return resultat
         else:
             return 0  # Pas d'attaque

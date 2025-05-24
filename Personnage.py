@@ -27,10 +27,11 @@ class Personnage():
         self.__positionX:int = para_positionX
         self.__positionY:int = para_positionY
         self.__nombreDeDeplacement:int = para_nombreDeplacement
+        self.__nombreDeDeplacementInitial:int = para_nombreDeplacement  # Stockage de la valeur initiale
         self.__iconePersonnage:str = para_iconePersonnage
        
         # Initialisation des dés
-        self.__desCombat = DesCombat(6, 3)  # 6 faces, 3 faces d'attaque
+        self.__desCombat = DesCombat(6, 4)  # 6 faces, 4 faces d'attaque
         self.__desDefense = DesDefense(6, 2)  # 6 faces, 2 faces de défense
 
     #####################
@@ -213,13 +214,17 @@ class Personnage():
     Permet au personnage de se déplacer dans une direction donnée
     """
     def seDeplacer(self, plateau):
-
         ### Si pas de déplacements restants alors lancer les dés de déplacement
         if self.__nombreDeDeplacement == 0:
-            print("Lancer des dés de déplacement :")
-            self.lancerDesDeplacement()
-        while self.__nombreDeDeplacement > 0:
+            # Lancer les dés de déplacement uniquement pour les héros
+            if self.__iconePersonnage in ['A', 'B', 'C', 'D']:  # Les icônes des héros
+                print("Lancer des dés de déplacement :")
+                self.lancerDesDeplacement()
+            else:
+                print(f"{self.nomPerso} n'a plus de points de déplacement.")
+                return
 
+        while self.__nombreDeDeplacement > 0:
             plateau.afficher_plateau()
             print(f"Il vous reste {self.__nombreDeDeplacement} déplacement(s).")
             ### Demander la direction de déplacement
@@ -239,7 +244,6 @@ class Personnage():
                 self.passerTour()
             else:
                 print("Direction invalide. Veuillez choisir entre haut, bas, gauche ou droite.")
-
 
             ### Si le déplacement a réussi, diminuer le nombre de déplacements restants
             if deplacement_reussi:
@@ -360,6 +364,18 @@ class Personnage():
 
 
     """
+    QUI: Mathis Binnemans
+    QUAND: 24/05/25
+    QUOI: Méthode restaurerDeplacements()
+    Restaure le nombre de déplacements à sa valeur initiale
+    """
+    def restaurerDeplacements(self) -> None:
+        if self.__iconePersonnage not in ['A', 'B', 'C', 'D']:  # Si c'est un monstre
+            self.__nombreDeDeplacement = self.__nombreDeDeplacementInitial
+
+
+
+    """
     QUI: Thibaud Masset
     QUAND: 03/04/25
     QUOI: Méthode attaquer()
@@ -386,7 +402,7 @@ class Personnage():
         degats_finaux = self.calculerDegatsFinaux(degats_bruts, protection)
         
         # Appliquer les dégâts
-        ennemi.appliquerDegats(degats_finaux)
+        ennemi.appliquerDegats(degats_finaux, plateau)
 
     
     
@@ -416,10 +432,7 @@ class Personnage():
 
         return ennemis_a_portee
 
-
-
-
-
+        
 
     """
     QUI: Thibaud Masset
@@ -467,13 +480,16 @@ class Personnage():
     QUOI: Méthode appliquerDegats()
     Applique les dégâts au personnage
     """
-    def appliquerDegats(self, degats: int) -> None:
+    def appliquerDegats(self, degats: int, plateau=None) -> None:
         self.points_vie_Perso = max(0, self.points_vie_Perso - degats)
         print(f"{self.nomPerso} perd {degats} points de vie.")
         print(f"Points de vie restants : {self.points_vie_Perso}")
         
         if self.points_vie_Perso == 0:
             print(f"{self.nomPerso} est vaincu !")
+            if plateau is not None:
+                # Remplacer le personnage par un espace vide sur le plateau
+                plateau.plateau[self.positionY][self.positionX] = " "
 
 
 
